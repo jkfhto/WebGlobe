@@ -1,5 +1,6 @@
 import TiledLayer from './TiledLayer';
 import LabelLayer from './LabelLayer';
+import { devicePixelRatio } from '../Env';
 
 //http://www.google.cn/maps
 //http://ditu.bigemap.com/
@@ -7,6 +8,8 @@ import LabelLayer from './LabelLayer';
 //http://www.265.me/
 
 type Style = "Default" | "Satellite" | "Road" | "RoadOnly" | "Terrain" | "TerrainOnly";
+
+const scale: number = devicePixelRatio > 1 ? 2 : 1;
 
 export class GoogleTiledLayer extends TiledLayer{
 
@@ -59,13 +62,16 @@ export class GoogleTiledLayer extends TiledLayer{
         break;
     }
 
-    var url:string = `//mt${this.idx}.google.cn/maps/vt?lyrs=${lyrs}&hl=zh-CN&gl=CN&&x=${column}&y=${row}&z=${level}`;
+    var url:string = `//mt${this.idx}.google.cn/maps/vt?lyrs=${lyrs}&hl=zh-CN&gl=CN&&x=${column}&y=${row}&z=${level}&scale=${scale}`;
 
     this.idx++;
 
     if(this.idx >= 4){
       this.idx = 0;
     }
+
+    // url = "https://map3.ssl.qhimg.com/sotile/m/ver19/2/14/?x=13495&y=10183";
+    // url = "http://m3.map.gtimg.com/hwap?z=18&x=431726&y=325657&styleid=1000&scene=0&version=260";
 
     return url;
   }
